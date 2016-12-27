@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LinkShortnerApp</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="container">
+    <% if flash[:success].present? %>
+      <div class="alert alert-success"><%= flash[:success] %></div>
+    <% end %>
+    <% if flash[:error].present? %>
+      <div class="alert alert-danger"><%= flash[:error] %></div>
+    <% end %>
+    <% if flash[:notice].present? %>
+      <div class="alert alert-info"><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
+  </div>
+
+</body>
+</html>
