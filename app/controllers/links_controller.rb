@@ -30,6 +30,8 @@ class LinksController < ApplicationController
   def forward
     @link = Link.find_by key: params[:key]
     if @link
+      @link.clicks += 1
+      @link.save
       redirect_to @link.actual_url
     end
   end
