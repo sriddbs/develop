@@ -1,28 +1,65 @@
-== README
+Link Shortner Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Objective:
 
-Things you may want to cover:
+Build a small link shortener service with an API as well as a small web front-end.
 
-* Ruby version
+The link shortener should be able to receive a URL and give back a shortened URL.
 
-* System dependencies
+When a user accesses the shortened URL he should be redirected to the full URL.
 
-* Configuration
+It should have an API endpoint where you can query stats around a particular shortened URL giving you details about the users that have visited the URL with as much information as you can get on that person.
 
-* Database creation
+Development Environment
+  Rails 4.2.0
+  Ruby 2.1.8
 
-* Database initialization
+Workflow:
 
-* How to run the test suite
+When a user logs into the system, he will see the top 5 short URL's(decided by the number of clicks) and text box where he can enter a long URL and click on the 'Shorten' button to generate a short URL. The short URL will be of the form http://pte.ly/{6 chars}, for ex:- http://pte.ly/1w5e3W. Clicking on this short URL, user will be redirected to the actual URL.
 
-* Services (job queues, cache servers, search engines, etc.)
+API:
 
-* Deployment instructions
+Authentication
+  All API's go through token authentication which can be passed as headers in the API request
 
-* ...
+1. Short URL
+POST /api/v1/short_url
+  Returns a shortened URL for a given URL as input
 
+Request Parameters
+  url(string)
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Example Request
+  curl -H "Authorization: Token token=da0feda374beb6b3c2dde5e71e68888e" -X POST -d "url=https://mail.google.com/mail/u/0/#inbox/159207e3e3fcb466"
+    http://localhost:3000/api/v1/short_url
+
+Example Response
+  {"short_url":"http://pte.ly/i4Ghz1"}
+
+2. Stats
+POST /api/v1/stats
+  Return details about the users that have visited the URL
+
+Request Parameters
+  url(string)
+
+Example Request
+  curl -H "Authorization: Token token=da0feda374beb6b3c2dde5e71e68888e" -X POST -d "url=http://pte.ly/6rP7d2" http://localhost:3000/api/v1/stats
+
+Example Response
+  {
+    "user_stats":
+      [
+        {"email":"sriddbs.bs@gmail.com","ip_address":"127.0.0.1","visit_count":1,"last_visited_at":"28 Dec, 11:57 am"},
+        {"email":"abc@example.com","ip_address":"127.0.0.1","visit_count":2,"last_visited_at":"28 Dec, 13:11 pm"}
+      ]
+  }
+
+  email: email address of the user
+  ip_address: ip address from where the user has last accessed the URL
+  visit_count: number of times the user has visited the URL
+  last_visited_at: date/time at which the user has last visited the URL
+
+Scope for improvements:
+  Lot of other details can be added to the user like device_type: Web, Andriod, ios, channel: email, facebook etc
