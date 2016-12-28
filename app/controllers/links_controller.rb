@@ -5,6 +5,7 @@ class LinksController < ApplicationController
 
   def new
     @link = Link.new
+    @top_links = Link.all.order("clicks DESC").first(5)
   end
 
   def create

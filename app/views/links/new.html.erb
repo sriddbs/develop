@@ -10,3 +10,17 @@
     </div>
   </div>
 <% end %>
+
+<div class="page-header">
+  <h2>Top 5 links</h2>
+</div>
+
+<% @top_links.each do |l| %>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="badge"><%= l.clicks %> clicks</span>
+      <%= l.actual_url %><br />
+      <%= link_to l.short_url, link_redirect_path(l.key), target: "_blank" %>
+    </li>
+  </ul>
+<% end %>
