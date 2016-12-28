@@ -19,6 +19,7 @@ class LinksController < ApplicationController
 
     @link = Link.new link_params
     @link.key = Link.generate_key
+    @link.short_url = @link.generate_short_url
     if @link.save
       flash[:success] = "Shortened Link successfully created"
       redirect_to links_path
@@ -32,6 +33,8 @@ class LinksController < ApplicationController
     if @link
       @link.clicks += 1
       @link.save
+
+      current_user.links << @link
       redirect_to @link.actual_url
     end
   end

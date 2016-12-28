@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       scope(controller: :links_api) do
         post "short_url" => "links_api#generate_short_url"
+        post "stats" => "links_api#get_statistics"
       end
     end
   end
